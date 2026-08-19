@@ -1,0 +1,155 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap");
+
+:root {
+    --navy: #11151f;
+    --navy-soft: #181d28;
+
+    --cream: #f7f3ec;
+    --cream-dark: #eee8de;
+
+    --gold: #c99a3d;
+    --gold-light: #d8b467;
+
+    --text-primary: #17191f;
+    --text-secondary: #6f6b63;
+    --text-muted: #969087;
+
+    --border: #ded8ce;
+
+    --white: #ffffff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    min-width: 320px;
+
+    background-color: var(--cream);
+    color: var(--text-primary);
+
+    font-family: "DM Sans", sans-serif;
+
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+button,
+input,
+select,
+textarea {
+    font-family: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Typography */
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    margin: 0;
+    font-family: "Playfair Display", serif;
+    font-weight: 600;
+}
+
+p {
+    margin: 0;
+}
+
+/* Selection */
+
+::selection {
+    background: var(--gold);
+    color: var(--white);
+}
+
+/* Scrollbar */
+
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--cream);
+}
+
+::-webkit-scrollbar-thumb {
+    background: #c8c0b4;
+    border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--gold);
+}
+
+/* Verum & Co. utilities */
+
+.nova-section {
+    background: var(--cream);
+    color: var(--text-primary);
+}
+
+.nova-container {
+    width: min(1280px, calc(100% - 48px));
+    margin: 0 auto;
+}
+
+.nova-eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+
+    color: var(--gold);
+
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+}
+
+.nova-eyebrow::before {
+    content: "";
+    width: 36px;
+    height: 1px;
+    background: var(--gold);
+}
+
+.nova-display {
+    font-family: "Playfair Display", serif;
+    letter-spacing: -0.025em;
+}
+
+.nova-muted {
+    color: var(--text-secondary);
+}
+
+.nova-gold {
+    color: var(--gold);
+}
+
+.nova-divider {
+    height: 1px;
+    background: var(--border);
+}
