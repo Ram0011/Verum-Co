@@ -11,7 +11,7 @@ import {
 
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Skeleton } from "@/components/ui/skeleton";
+import { ProductsPageSkeleton, ContentFade } from "@/components/loading";
 import { toast } from "sonner";
 
 import ProductCard from "@/components/Product/ProductCard";
@@ -213,7 +213,7 @@ const Products = () => {
                     </div>
 
                     <div className="mt-5 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-                        <h1 className="font-serif text-[2.75rem] font-semibold leading-[1.05] tracking-[-0.03em] text-[#11151f] sm:text-6xl lg:text-[4.25rem]">
+                        <h1 className="font-serif text-4xl font-semibold leading-[1.05] tracking-[-0.03em] text-[#11151f] sm:text-6xl lg:text-[4.25rem]">
                             Explore
                             <span className="italic text-[#c99a3d]">
                                 {" "}
@@ -242,7 +242,7 @@ const Products = () => {
                 {/* =========================================
                     FILTER PANEL
                 ========================================= */}
-                <div className="sticky top-4 z-20 mb-10 sm:mb-14">
+                <div className="sticky top-2 z-20 mb-10 sm:mb-14">
                     <div className="border border-[#d8d0c4] bg-[#eee8de]/95 backdrop-blur-sm">
                         <div className="flex flex-col gap-4 p-4 sm:p-5 lg:flex-row lg:items-center lg:gap-3 lg:p-5">
                             {/* Search */}
@@ -401,24 +401,7 @@ const Products = () => {
                 {/* =========================================
                     LOADING
                 ========================================= */}
-                {loading && (
-                    <div className="grid gap-x-6 gap-y-12 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                        {Array.from({ length: 12 }).map((_, index) => (
-                            <div
-                                key={index}
-                                className="overflow-hidden border border-[#ded8ce] bg-[#eee8de]"
-                            >
-                                <Skeleton className="h-72 w-full rounded-none bg-[#e3ddd2]" />
-                                <div className="space-y-4 p-5">
-                                    <Skeleton className="h-5 w-3/4 bg-[#ddd5c9]" />
-                                    <Skeleton className="h-4 w-1/2 bg-[#ddd5c9]" />
-                                    <Skeleton className="h-6 w-1/3 bg-[#ddd5c9]" />
-                                    <Skeleton className="h-11 w-full rounded-none bg-[#ddd5c9]" />
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                )}
+                {loading && <ProductsPageSkeleton count={12} />}
 
                 {/* =========================================
                     ERROR
@@ -441,6 +424,7 @@ const Products = () => {
                     PRODUCTS
                 ========================================= */}
                 {!loading && !error && (
+                    <ContentFade id={`products-p${page}-${category}-${sort}`}>
                     <>
                         {products.length === 0 ? (
                             <div className="border border-[#ded8ce] bg-[#eee8de] py-24 text-center">
@@ -495,6 +479,7 @@ const Products = () => {
                             </>
                         )}
                     </>
+                    </ContentFade>
                 )}
 
                 {/* =========================================

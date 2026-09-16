@@ -15,9 +15,6 @@ const wishlistRoutes = require("./modules/wishlist/routes/wishlist.routes");
 app.use(express.json());
 app.use(cors({ origin: "http://localhost:5173", credentials: true }));
 
-app.use(express.json());
-app.use(errorHandler);
-
 //Connect DB
 connectDB();
 
@@ -34,7 +31,11 @@ app.get("/", (req, res) => {
     res.send("API running");
 });
 
+// Error handler — registered after the routes so it can catch their errors
+app.use(errorHandler);
+
 // Server start
-app.listen(5000, () => {
-    console.log(`Server started on port ${process.env.PORT}`);
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+    console.log(`Server started on port ${PORT}`);
 });

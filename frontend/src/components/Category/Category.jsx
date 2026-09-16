@@ -1,12 +1,13 @@
 import CategoryCard from "./CategoryCard";
 import { categories } from "./category.data";
+import Reveal from "@/components/landing/Reveal";
 
 const Category = () => {
     return (
-        <section className="bg-[#f7f3ec] py-24">
+        <section className="bg-[#f7f3ec] py-14 sm:py-24">
             <div className="mx-auto max-w-[1400px] px-6 lg:px-10">
                 {/* Heading */}
-                <div className="mb-14">
+                <Reveal className="mb-14">
                     <div className="flex items-center gap-4 text-xs font-semibold uppercase tracking-[0.25em] text-[#c99a3d]">
                         <span className="h-px w-10 bg-[#c99a3d]" />
                         Explore
@@ -27,17 +28,18 @@ const Category = () => {
                             everyday living.
                         </p>
                     </div>
-                </div>
+                </Reveal>
 
                 {/* Categories */}
                 <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-                    {categories.map((category) => (
-                        <CategoryCard
-                            key={category.id}
-                            title={category.title}
-                            icon={category.icon}
-                            productCount={category.productCount}
-                        />
+                    {categories.map((category, i) => (
+                        <Reveal key={category.id} delay={(i % 3) * 0.1}>
+                            <CategoryCard
+                                title={category.title}
+                                icon={category.icon}
+                                productCount={category.productCount}
+                            />
+                        </Reveal>
                     ))}
                 </div>
             </div>

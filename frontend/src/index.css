@@ -48,7 +48,11 @@
     }
   html {
     @apply font-sans;
-    }
+    overflow-x: clip;
+  }
+  body {
+    overflow-x: clip;
+  }
 }
 
 @theme inline {

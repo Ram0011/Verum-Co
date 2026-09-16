@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import useOrders from "@/hooks/useOrders";
 import { OrderCard, EmptyOrders } from "@/components/Orders";
+import { OrdersSkeleton, ContentFade } from "@/components/loading";
 
 const Orders = () => {
     const navigate = useNavigate();
@@ -12,16 +13,8 @@ const Orders = () => {
     if (loading) {
         return (
             <section className="min-h-screen bg-[#f7f3ec] px-6 py-16">
-                <div className="mx-auto max-w-[1200px] animate-pulse">
-                    <div className="h-4 w-24 bg-[#e3ddd2]" />
-
-                    <div className="mt-6 h-12 w-64 bg-[#e3ddd2]" />
-
-                    <div className="mt-12 space-y-6">
-                        {Array.from({ length: 3 }).map((_, index) => (
-                            <div key={index} className="h-56 bg-[#eee8de]" />
-                        ))}
-                    </div>
+                <div className="mx-auto max-w-[1200px]">
+                    <OrdersSkeleton />
                 </div>
             </section>
         );
@@ -52,6 +45,7 @@ const Orders = () => {
     }
 
     return (
+        <ContentFade id={`orders-${orders.length}`}>
         <section className="min-h-screen bg-[#f7f3ec] px-6 py-12 sm:py-16">
             <div className="mx-auto max-w-[1200px]">
                 {/* Back */}
@@ -72,7 +66,7 @@ const Orders = () => {
                             Your Account
                         </div>
 
-                        <h1 className="mt-5 font-serif text-5xl font-semibold tracking-[-0.025em] text-[#11151f]">
+                        <h1 className="mt-5 font-serif text-4xl font-semibold tracking-[-0.025em] text-[#11151f] sm:text-5xl">
                             Your orders.
                         </h1>
 
@@ -97,6 +91,7 @@ const Orders = () => {
                 </div>
             </div>
         </section>
+        </ContentFade>
     );
 };
 

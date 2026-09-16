@@ -2,10 +2,13 @@ const productService = require("../service/product.service");
 
 exports.createProduct = async (req, res) => {
     try {
-        const product = await productService.createProduct(req.body);
+        const product = await productService.createProduct({
+            ...req.body,
+            seller: req.user.id || req.user._id,
+        });
         res.status(201).json(product);
     } catch (error) {
-        console.error("Error in getProducts: ", error);
+        console.error("Error in createProduct: ", error);
         res.status(500).json({
             success: false,
             message: error.message || "Internal Server Error ",

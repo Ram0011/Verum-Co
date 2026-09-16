@@ -1,5 +1,5 @@
 import { ArrowUpRight, Mail, MapPin } from "lucide-react";
-import { FaFacebookF, FaInstagram, FaTwitter } from "react-icons/fa";
+import { FaInstagram, FaTwitter } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -32,7 +32,7 @@ const Footer = () => {
         <footer className="bg-[#11151f] text-[#f7f3ec]">
             {/* Newsletter / Brand Statement */}
             <div className="border-b border-white/10">
-                <div className="mx-auto max-w-[1400px] px-6 py-20 lg:px-10 lg:py-24">
+                <div className="mx-auto max-w-[1400px] px-6 py-14 sm:py-20 lg:px-10 lg:py-24">
                     <div className="grid gap-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-end">
                         {/* Statement */}
                         <div>
@@ -61,7 +61,7 @@ const Footer = () => {
                                 onSubmit={handleSubscribe}
                                 className="border-b border-white/30"
                             >
-                                <div className="flex items-center">
+                                <div className="flex items-center gap-2">
                                     <Mail className="mr-4 h-5 w-5 shrink-0 text-[#c99a3d]" />
 
                                     <input
@@ -77,7 +77,7 @@ const Footer = () => {
 
                                     <button
                                         type="submit"
-                                        className="group flex shrink-0 items-center gap-2 text-xs font-semibold uppercase tracking-[0.16em] text-[#f7f3ec] transition-colors hover:text-[#c99a3d]"
+                                        className="group flex shrink-0 items-center gap-2 text-[11px] font-semibold uppercase tracking-[0.16em] text-[#f7f3ec] transition-colors hover:text-[#c99a3d] sm:text-xs"
                                     >
                                         Subscribe
                                         <ArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -109,7 +109,7 @@ const Footer = () => {
                                 </div>
 
                                 <div className="mt-1 text-[8px] font-medium tracking-[0.3em] text-[#777a82]">
-                                    EST. ONLINE BOUTIQUE
+                                    EST. ONLINE ATELIER
                                 </div>
                             </Link>
 

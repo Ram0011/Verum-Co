@@ -264,7 +264,7 @@ const Login = () => {
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C9A15A] mt-1" />
                     </div>
                     <p className="text-[11px] uppercase tracking-[0.25em] text-[#8A8F9C] mt-1">
-                        Est. Online Boutique
+                        EST. ONLINE ATELIER
                     </p>
                 </motion.div>
 

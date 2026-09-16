@@ -153,3 +153,409 @@ p {
     height: 1px;
     background: var(--border);
 }
+
+/* ============================================================
+   VERUM — World-class loading system
+   GPU-only animations (transform / opacity). No layout thrash.
+   ============================================================ */
+
+.verum-shimmer {
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+    background: #e7e0d3;
+    border-radius: 2px;
+    will-change: opacity;
+    animation: verum-soft-pulse 1.8s ease-in-out infinite;
+}
+
+.verum-shimmer::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    transform: translateX(-100%);
+    background: linear-gradient(
+        100deg,
+        transparent 10%,
+        rgba(255, 255, 255, 0.75) 50%,
+        transparent 90%
+    );
+    animation: verum-shimmer-sweep 1.6s ease-in-out infinite;
+    will-change: transform;
+}
+
+.verum-skeleton-card {
+    animation: verum-card-in 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 420px;
+}
+
+@keyframes verum-shimmer-sweep {
+    0% {
+        transform: translateX(-100%);
+    }
+    60%,
+    100% {
+        transform: translateX(100%);
+    }
+}
+
+@keyframes verum-soft-pulse {
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.72;
+    }
+}
+
+@keyframes verum-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Top progress bar --- */
+
+.verum-progress-fill {
+    background: linear-gradient(90deg, #a9803f, #c99a3d, #e3c37c);
+    box-shadow: 0 0 12px rgba(201, 154, 61, 0.55);
+    transition:
+        transform 0.18s linear,
+        opacity 0.35s ease;
+    will-change: transform;
+}
+
+.verum-progress-glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    transform-origin: left;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(201, 154, 61, 0.35),
+        transparent
+    );
+    filter: blur(4px);
+    transition:
+        transform 0.18s linear,
+        opacity 0.35s ease;
+    will-change: transform;
+}
+
+/* --- Spinner --- */
+
+.verum-spinner {
+    position: relative;
+    display: inline-flex;
+    flex-shrink: 0;
+    will-change: transform;
+}
+
+.verum-spinner-ring,
+.verum-spinner-arc {
+    position: absolute;
+    inset: 0;
+    border-radius: 9999px;
+}
+
+.verum-spinner-ring {
+    border: 2px solid currentColor;
+    opacity: 0.22;
+}
+
+.verum-spinner-arc {
+    border: 2px solid transparent;
+    border-top-color: #c99a3d;
+    animation: verum-spin 0.75s linear infinite;
+    will-change: transform;
+}
+
+.verum-spinner[data-tone="on-dark"] .verum-spinner-arc {
+    border-top-color: #e3c37c;
+}
+
+@keyframes verum-spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* --- Typing dots --- */
+
+.verum-dots {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.verum-dots > span {
+    width: 5px;
+    height: 5px;
+    border-radius: 9999px;
+    background: currentColor;
+    opacity: 0.4;
+    animation: verum-dot-bounce 1.2s ease-in-out infinite;
+}
+
+.verum-dots > span:nth-child(2) {
+    animation-delay: 0.15s;
+}
+
+.verum-dots > span:nth-child(3) {
+    animation-delay: 0.3s;
+}
+
+@keyframes verum-dot-bounce {
+    0%,
+    60%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.35;
+    }
+    30% {
+        transform: translateY(-4px);
+        opacity: 1;
+    }
+}
+
+/* --- Misc --- */
+
+.verum-fade-in {
+    animation: verum-fade-in 0.3s ease both;
+}
+
+.verum-pulse-dot {
+    animation: verum-soft-pulse 1.4s ease-in-out infinite;
+}
+
+.verum-page {
+    min-height: inherit;
+}
+
+/* ============================================================
+   VERUM — World-class landing
+   ============================================================ */
+
+/* ambient orbs */
+.verum-orb-a {
+    background: radial-gradient(
+        circle,
+        rgba(201, 154, 61, 0.22) 0%,
+        rgba(201, 154, 61, 0.06) 55%,
+        transparent 70%
+    );
+    filter: blur(10px);
+    animation: verum-drift-a 13s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+.verum-orb-b {
+    background: radial-gradient(
+        circle,
+        rgba(216, 180, 103, 0.16) 0%,
+        rgba(238, 232, 222, 0.5) 55%,
+        transparent 72%
+    );
+    filter: blur(12px);
+    animation: verum-drift-b 17s ease-in-out infinite alternate;
+    will-change: transform;
+}
+
+@keyframes verum-drift-a {
+    from {
+        transform: translate3d(0, 0, 0) scale(1);
+    }
+    to {
+        transform: translate3d(-46px, 52px, 0) scale(1.12);
+    }
+}
+
+@keyframes verum-drift-b {
+    from {
+        transform: translate3d(0, 0, 0) scale(1.08);
+    }
+    to {
+        transform: translate3d(56px, -42px, 0) scale(1);
+    }
+}
+
+/* slow rotating dashed ring */
+.verum-ring-spin {
+    animation: verum-spin-slower 46s linear infinite;
+    will-change: transform;
+}
+
+@keyframes verum-spin-slower {
+    to {
+        transform: translate(-50%, -50%) rotate(360deg);
+    }
+}
+
+/* rising gold dust */
+.verum-dust {
+    animation-name: verum-rise;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+    will-change: transform, opacity;
+}
+
+@keyframes verum-rise {
+    from {
+        transform: translateY(0);
+        opacity: 0;
+    }
+    12% {
+        opacity: var(--dust-opacity, 0.5);
+    }
+    80% {
+        opacity: var(--dust-opacity, 0.5);
+    }
+    to {
+        transform: translateY(-88vh);
+        opacity: 0;
+    }
+}
+
+/* film grain */
+.verum-grain {
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 180px 180px;
+}
+
+/* headline shimmer sweep */
+.verum-headline-shine > span {
+    position: relative;
+    background: linear-gradient(
+        100deg,
+        #c99a3d 30%,
+        #f0d9a0 50%,
+        #c99a3d 70%
+    );
+    background-size: 220% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: verum-text-shine 5.5s ease-in-out infinite;
+}
+
+@keyframes verum-text-shine {
+    0%,
+    55% {
+        background-position: 120% 0;
+    }
+    85%,
+    100% {
+        background-position: -120% 0;
+    }
+}
+
+/* button shine sweep */
+.verum-btn-shine::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    transform: translateX(-120%) skewX(-18deg);
+    background: linear-gradient(
+        90deg,
+        transparent,
+        rgba(255, 255, 255, 0.28),
+        transparent
+    );
+    transition: transform 0.7s ease;
+    pointer-events: none;
+}
+
+.verum-btn-shine:hover::after {
+    transform: translateX(120%) skewX(-18deg);
+}
+
+/* glass card shine on hover */
+.verum-card-shine {
+    background: linear-gradient(
+        105deg,
+        transparent 40%,
+        rgba(255, 255, 255, 0.55) 50%,
+        transparent 60%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.8s ease;
+}
+
+.group\/card:hover .verum-card-shine,
+.verum-hero-card:hover .verum-card-shine {
+    transform: translateX(120%);
+}
+
+/* marquee */
+.verum-marquee-track {
+    animation: verum-marquee 30s linear infinite;
+    will-change: transform;
+}
+
+.verum-marquee:hover .verum-marquee-track {
+    animation-play-state: paused;
+}
+
+@keyframes verum-marquee {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+/* scroll cue */
+.verum-scroll-dot-inner {
+    animation: verum-scroll-drop 1.8s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+    will-change: transform;
+}
+
+@keyframes verum-scroll-drop {
+    0% {
+        transform: translateY(-100%);
+    }
+    60%,
+    100% {
+        transform: translateY(280%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .verum-shimmer::after,
+    .verum-shimmer,
+    .verum-skeleton-card,
+    .verum-spinner-arc,
+    .verum-dots > span,
+    .verum-fade-in,
+    .verum-pulse-dot,
+    .verum-orb-a,
+    .verum-orb-b,
+    .verum-ring-spin,
+    .verum-dust,
+    .verum-marquee-track,
+    .verum-scroll-dot-inner,
+    .verum-headline-shine > span {
+        animation: none !important;
+    }
+
+    .verum-progress-fill,
+    .verum-progress-glow,
+    .verum-btn-shine::after,
+    .verum-card-shine {
+        transition: none !important;
+    }
+
+    html {
+        scroll-behavior: auto;
+    }
+}
