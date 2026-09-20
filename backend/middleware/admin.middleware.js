@@ -5,7 +5,7 @@ const adminOnly = (req, res, next) => {
         throw new AppError("Authentication Required ", 401);
     }
 
-    if (!["admin", "super_admin"].includes(req.user.role)) {
+    if (!["admin"].includes(req.user.role)) {
         throw new AppError("Admin access Required", 403);
     }
     next();

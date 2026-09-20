@@ -1,5 +1,4 @@
-import AdminRoutes from "./routes/AdminRoutes";
-import AppRoutes from "./routes/AppRoutes";
+import RootRoutes from "./routes/RootRoutes";
 import { TopProgressBar, GlobalLoader } from "./components/loading";
 
 function App() {
@@ -7,8 +6,7 @@ function App() {
         <>
             <TopProgressBar />
             <GlobalLoader />
-            <AppRoutes />
-            <AdminRoutes />
+            <RootRoutes />
         </>
     );
 }

@@ -2,6 +2,8 @@ import { Suspense, lazy, useEffect } from "react";
 import { Routes, Route, useLocation } from "react-router-dom";
 
 import MainLayout from "@/layouts/MainLayout";
+import SellerLayout from "@/components/Seller/SellerLayout";
+import SellerProtectedRoute from "./SellerProtectedRoute";
 import RouteFallback from "@/components/loading/RouteFallback";
 import ProtectedRoute from "./ProtectedRoutes";
 
@@ -14,6 +16,12 @@ const Cart = lazy(() => import("../pages/Cart/Cart"));
 const Checkout = lazy(() => import("../pages/Checkout/Checkout"));
 const Orders = lazy(() => import("../pages/Orders/Orders"));
 const Wishlist = lazy(() => import("../pages/Wishlist/Wishlist"));
+import SellerDashboard from "../pages/Seller/Dashboard/SellerDashboard";
+import SellerProducts from "../pages/Seller/Products/SellerProducts";
+import CreateProduct from "../pages/Seller/Products/CreateProduct";
+import EditProduct from "../pages/Seller/Products/EditProduct";
+
+import SellerPlaceholder from "@/components/Seller/SellerPlaceholder";
 
 // Scroll to top on every navigation — feels instant with the progress bar.
 const ScrollToTop = () => {
@@ -80,6 +88,32 @@ const AppRoutes = () => {
                     {/* Authentication Routes */}
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+
+                    {/* Seller Routes — one layout route, content swaps via Outlet */}
+                    <Route
+                        path="/seller"
+                        element={
+                            <SellerProtectedRoute>
+                                <SellerLayout />
+                            </SellerProtectedRoute>
+                        }
+                    >
+                        <Route index element={<SellerDashboard />} />
+
+                        <Route path="products" element={<SellerProducts />} />
+
+                        <Route
+                            path="products/create"
+                            element={<CreateProduct />}
+                        />
+
+                        <Route
+                            path="products/:id/edit"
+                            element={<EditProduct />}
+                        />
+
+                        <Route path="*" element={<div>Coming soon...</div>} />
+                    </Route>
                 </Routes>
             </Suspense>
         </>

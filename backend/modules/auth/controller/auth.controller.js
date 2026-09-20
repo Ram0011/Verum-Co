@@ -20,10 +20,7 @@ exports.login = async (req, res, next) => {
 
 exports.adminLogin = async (req, res, next) => {
     try {
-        const user = await authService.loginUser(req.body, [
-            "admin",
-            "super_admin",
-        ]);
+        const user = await authService.loginUser(req.body, ["admin"]);
         res.status(200).json(user);
     } catch (error) {
         next(error);

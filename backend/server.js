@@ -10,6 +10,8 @@ const cartRoutes = require("./modules/cart/routes/cart.routes");
 const orderRoutes = require("./modules/order/routes/order.routes");
 const userRoutes = require("./modules/user/routes/user.routes");
 const wishlistRoutes = require("./modules/wishlist/routes/wishlist.routes");
+const adminRoutes = require("./modules/admin/routes/admin.routes");
+const sellerProductRoutes = require("./modules/product/routes/sellerProduct.routes");
 
 // Middlewares
 app.use(express.json());
@@ -25,6 +27,8 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/user", userRoutes);
 app.use("/api/wishlist", wishlistRoutes);
+app.use("/api/admin", adminRoutes);
+app.use("/api/seller/products", sellerProductRoutes);
 
 //API TEST
 app.get("/", (req, res) => {

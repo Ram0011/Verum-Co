@@ -32,7 +32,7 @@ const AdminLogin = () => {
             const { user, token } = response;
 
             // Defense-in-depth: never store a non-admin session from here.
-            if (!["admin", "super_admin"].includes(user.role)) {
+            if (!["admin"].includes(user.role)) {
                 toast.error("You do not have admin access.");
                 return;
             }
@@ -41,7 +41,8 @@ const AdminLogin = () => {
 
             toast.success("Welcome to the admin panel");
 
-            navigate("/admin");
+            // Single navigation point (AuthContext.login no longer navigates).
+            navigate("/admin", { replace: true });
         } catch (error) {
             console.error(error);
 
@@ -85,7 +86,7 @@ const AdminLogin = () => {
                         <div className="flex h-40 w-36 -translate-y-1 flex-col items-center justify-center gap-1 rounded-xl border border-[#c9a24b]/70 bg-[#181924]">
                             <span className="absolute -top-2 left-1/2 h-3 w-3 -translate-x-1/2 rounded-full border border-[#c9a24b]/70" />
                             <p className="font-['Georgia',_serif] text-lg italic text-[#c9a24b]">
-                                Members
+                                Admin
                             </p>
                             <p className="text-sm font-semibold tracking-[0.2em] text-[#f5efe4]">
                                 ONLY
