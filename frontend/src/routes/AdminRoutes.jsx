@@ -1,13 +1,15 @@
 import { Suspense, lazy } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import AdminProtectedRoute from "./AdminProtectedRoute";
+import AdminLayout from "@/components/Admin/AdminLayout";
 import RouteFallback from "@/components/loading/RouteFallback";
 
 const AdminLogin = lazy(() => import("@/pages/Admin/AdminLogin/AdminLogin"));
 const AdminDashboard = lazy(
     () => import("@/pages/Admin/Dashboard/AdminDashboard"),
 );
+const AdminSellers = lazy(() => import("@/pages/Admin/Sellers/AdminSellers"));
 
 const AdminRoutes = () => {
     return (
@@ -19,10 +21,17 @@ const AdminRoutes = () => {
                     path="/admin"
                     element={
                         <AdminProtectedRoute>
-                            <AdminDashboard />
+                            <AdminLayout />
                         </AdminProtectedRoute>
                     }
-                />
+                >
+                    <Route index element={<AdminDashboard />} />
+                    <Route path="sellers" element={<AdminSellers />} />
+                    <Route
+                        path="*"
+                        element={<Navigate to="/admin" replace />}
+                    />
+                </Route>
             </Routes>
         </Suspense>
     );
