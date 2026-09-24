@@ -9,6 +9,7 @@ import { createOrder } from "@/api/order.api";
 import { CheckoutForm, OrderSummary } from "@/components/Checkout";
 
 import EmptyCart from "@/components/Cart/EmptyCart";
+import { CheckoutSkeleton, ContentFade } from "@/components/loading";
 
 const Checkout = () => {
     const navigate = useNavigate();
@@ -40,16 +41,8 @@ const Checkout = () => {
     if (cartLoading) {
         return (
             <section className="min-h-[70vh] bg-[#f7f3ec] px-6 py-16">
-                <div className="mx-auto max-w-[1400px] animate-pulse">
-                    <div className="h-4 w-24 bg-[#e3ddd2]" />
-
-                    <div className="mt-6 h-12 w-72 bg-[#e3ddd2]" />
-
-                    <div className="mt-12 grid gap-12 lg:grid-cols-[1fr_400px]">
-                        <div className="h-[600px] bg-[#eee8de]" />
-
-                        <div className="h-[500px] bg-[#eee8de]" />
-                    </div>
+                <div className="mx-auto max-w-[1400px]">
+                    <CheckoutSkeleton />
                 </div>
             </section>
         );
@@ -60,6 +53,7 @@ const Checkout = () => {
     }
 
     return (
+        <ContentFade id="checkout">
         <section className="min-h-screen bg-[#f7f3ec] px-6 py-12 sm:py-16">
             <div className="mx-auto max-w-[1400px]">
                 {/* Back */}
@@ -79,7 +73,7 @@ const Checkout = () => {
                         Secure Checkout
                     </div>
 
-                    <h1 className="mt-5 font-serif text-5xl font-semibold tracking-[-0.025em] text-[#11151f] sm:text-6xl">
+                    <h1 className="mt-5 font-serif text-4xl font-semibold tracking-[-0.025em] text-[#11151f] sm:text-6xl">
                         Complete your
                         <span className="italic text-[#c99a3d]"> order.</span>
                     </h1>
@@ -113,6 +107,7 @@ const Checkout = () => {
                 </div>
             </div>
         </section>
+        </ContentFade>
     );
 };
 

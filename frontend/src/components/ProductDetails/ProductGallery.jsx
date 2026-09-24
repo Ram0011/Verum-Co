@@ -6,7 +6,7 @@ const ProductGallery = ({ images = [] }) => {
 
     if (!images || images.length === 0) {
         return (
-            <div className="flex h-[500px] items-center justify-center border border-[#ded8ce] bg-[#eee8de]">
+            <div className="flex h-[320px] items-center justify-center border border-[#ded8ce] bg-[#eee8de] sm:h-[500px]">
                 <span className="text-sm text-[#8b857c]">
                     No Image Available
                 </span>
@@ -32,7 +32,7 @@ const ProductGallery = ({ images = [] }) => {
         <div className="space-y-5">
             {/* Main Image */}
             <div className="group relative overflow-hidden border border-[#ded8ce] bg-[#eee8de]">
-                <div className="flex h-[500px] items-center justify-center p-10 sm:h-[600px]">
+                <div className="flex h-[320px] items-center justify-center p-5 sm:h-[500px] sm:p-10 lg:h-[600px]">
                     <img
                         src={currentImage?.url}
                         alt={currentImage?.alt || "Product image"}

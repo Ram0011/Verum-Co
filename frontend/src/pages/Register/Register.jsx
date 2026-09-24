@@ -1,204 +1,9 @@
-// import { useState } from "react";
-// import { useNavigate } from "react-router-dom";
-// import { useAuth } from "@/context/AuthContext";
-// import { registerUser } from "@/api/auth.api";
-// import { Input } from "@/components/ui/input";
-// import { motion } from "framer-motion";
-
-// const Register = () => {
-//     const navigate = useNavigate();
-//     const { login } = useAuth();
-
-//     const [formData, setFormData] = useState({
-//         name: "",
-//         email: "",
-//         password: "",
-//     });
-
-//     const [showSuccess, setShowSuccess] = useState(false);
-
-//     const handleChange = (e) => {
-//         setFormData({
-//             ...formData,
-//             [e.target.name]: e.target.value,
-//         });
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-//         try {
-//             const data = await registerUser(formData);
-//             login(data.user, data.token);
-//             navigate("/");
-//             setShowSuccess(true);
-//         } catch (_error) {
-//             console.log("Error in Register: ", _error);
-//         }
-//     };
-
-//     return (
-//         <div className="min-h-screen bg-gradient-to-b from-indigo-600 via-purple-600 to-pink-600 overflow-hidden relative">
-//             {/* Animated background circles */}
-//             <div className="absolute -inset-0 overflow-hidden pointer-events-none">
-//                 <motion.div
-//                     className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl opacity-20 -top-5 -left-10"
-//                     animate="visible"
-//                     transition={{ duration: 6, ease: "ease-in-out" }}
-//                 />
-//                 <motion.div
-//                     className="absolute w-80 h-80 bg-white/10 rounded-full blur-3xl opacity-20 -bottom-10 -right-10"
-//                     animate="visible"
-//                     transition={{ duration: 8, ease: "ease-in-out" }}
-//                 />
-//             </div>
-
-//             {/* Decorative left element */}
-//             <motion.div
-//                 className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-30"
-//                 animate="visible"
-//                 transition={{ duration: 4, delay: 0.5, ease: "ease-in-out" }}
-//                 style={{
-//                     background:
-//                         "conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent)",
-//                 }}
-//             >
-//                 <svg
-//                     className="w-full h-full fill-none stroke-white/20 stroke-width"
-//                     viewBox="0 0 100 100"
-//                 >
-//                     <circle
-//                         cx="50"
-//                         cy="50"
-//                         r="45"
-//                         fill="none"
-//                         strokeWidth="1"
-//                     />
-//                 </svg>
-//             </motion.div>
-
-//             <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-//                 <motion.div
-//                     className="w-full max-w-md w-full px-6 py-8 bg-white/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/20"
-//                     animate="visible"
-//                     transition={{ type: "spring", damping: 20, stiffness: 150 }}
-//                 >
-//                     <div className="text-center">
-//                         <h1
-//                             className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4"
-//                             initial="hidden"
-//                             animate="visible"
-//                             transition={{ delay: 0.2 }}
-//                         >
-//                             Create Account
-//                         </h1>
-
-//                         <p
-//                             className="text-slate-600 text-sm mb-8 max-w-sm"
-//                             initial="hidden"
-//                             animate="visible"
-//                             transition={{ delay: 0.3 }}
-//                         >
-//                             Sign up to join our community of savvy shoppers
-//                         </p>
-//                     </div>
-
-//                     <form onSubmit={handleSubmit} className="space-y-6">
-//                         <div>
-//                             <label className="block text-sm font-medium text-slate-600 mb-2">
-//                                 Name
-//                             </label>
-//                             <Input
-//                                 name="name"
-//                                 placeholder="Enter your name"
-//                                 value={formData.name}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-
-//                         <div>
-//                             <label className="block text-sm font-medium text-slate-600 mb-2">
-//                                 Email address
-//                             </label>
-//                             <Input
-//                                 type="email"
-//                                 name="email"
-//                                 placeholder="Enter your email"
-//                                 value={formData.email}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-
-//                         <div>
-//                             <label className="block text-sm font-medium text-slate-600 mb-2">
-//                                 Password
-//                             </label>
-//                             <Input
-//                                 type="password"
-//                                 name="password"
-//                                 placeholder="Enter your password"
-//                                 value={formData.password}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-
-//                         <button
-//                             type="submit"
-//                             className="w-full rounded-md bg-indigo-600 px-4 py-3 text-white font-medium text-sm hover:bg-indigo-500 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-//                         >
-//                             Register
-//                         </button>
-
-//                         {showSuccess && (
-//                             <div className="bg-green-100/50 border-green-200/50 border rounded-xl p-6 mb-8 text-center">
-//                                 <svg
-//                                     className="h-12 w-12 mx-auto mb-3 text-green-400"
-//                                     viewBox="0 0 20 20"
-//                                     fill="currentColor"
-//                                 >
-//                                     <path
-//                                         fillRule="evenodd"
-//                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 5a5 5 0 100-10 5 5 0 000 10z"
-//                                         clipRule="evenodd"
-//                                     />
-//                                 </svg>
-//                                 <h3 className="text-xl font-bold text-slate-900 mb-2">
-//                                     Account Created!
-//                                 </h3>
-//                                 <p className="text-slate-600">
-//                                     Your account has been successfully created.
-//                                     Welcome to Verum & Co.!
-//                                 </p>
-//                             </div>
-//                         )}
-
-//                         <div className="text-center mt-6">
-//                             <p className="text-sm text-slate-500">
-//                                 Already have an account?
-//                                 <a
-//                                     href="/login"
-//                                     className="font-medium text-indigo-600 hover:text-pink-500 transition-colors"
-//                                 >
-//                                     Login
-//                                 </a>
-//                             </p>
-//                         </div>
-//                     </form>
-//                 </motion.div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Register;
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { registerUser } from "@/api/auth.api";
 import { motion, AnimatePresence } from "framer-motion";
+import { toast } from "sonner";
 
 // Note for production: move this @import into your global stylesheet /
 // index.html <link> tag instead of injecting it at runtime on every mount.
@@ -228,14 +33,33 @@ const Register = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
+        const requiredFields = [
+            { key: "email", message: "Email is required" },
+            { key: "name", message: "Name is required" },
+            { key: "password", message: "Password is required" },
+        ];
+
+        const missingField = requiredFields.find(
+            (field) => !formData[field.key]?.trim(),
+        );
+
+        if (missingField) {
+            toast.error(missingField.message);
+            return;
+        }
+
         setIsSubmitting(true);
+
         try {
             const data = await registerUser(formData);
+
             login(data.user, data.token);
             setShowSuccess(true);
+
             setTimeout(() => navigate("/"), 1100);
-        } catch (_error) {
-            console.log("Error in Register: ", _error);
+        } catch (error) {
+            console.log("Error in Register: ", error);
             setIsSubmitting(false);
         }
     };
@@ -280,7 +104,7 @@ const Register = () => {
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C9A15A] mt-1" />
                     </div>
                     <p className="text-[11px] uppercase tracking-[0.25em] text-[#8A8F9C] mt-1">
-                        Est. Online Boutique
+                        EST. ONLINE ATELIER
                     </p>
                 </motion.div>
 

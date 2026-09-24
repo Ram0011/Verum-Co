@@ -3,9 +3,11 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
-import useWishlist from "@/hooks/useWishlist";
+import { useCart } from "@/context/CartContext";
+import { useWishlistContext } from "@/context/WishlistContext";
 import { addToCart } from "@/api/cart.api";
 import { formatCurrency } from "@/utils/formatCurrency";
+import { Spinner } from "@/components/loading";
 
 const ProductCard = ({
     _id,
@@ -22,7 +24,8 @@ const ProductCard = ({
     const [isInWishlist, setIsInWishlist] = useState(false);
     const [addingToCart, setAddingToCart] = useState(false);
 
-    const { isInWishlist: checkInWishlist, toggleWishlist } = useWishlist();
+    const { isInWishlist: checkInWishlist, toggleWishlist } = useWishlistContext();
+    const { refetchCart } = useCart();
 
     // Check if product is in wishlist on mount
     useEffect(() => {
@@ -60,6 +63,7 @@ const ProductCard = ({
             setAddingToCart(true);
 
             await addToCart(_id, 1);
+            await refetchCart();
 
             toast.success("Added to cart");
         } catch (error) {
@@ -112,6 +116,8 @@ const ProductCard = ({
                     <img
                         src={images?.[0]?.url}
                         alt={images?.[0]?.alt || name}
+                        loading="lazy"
+                        decoding="async"
                         className="h-full w-full object-contain transition-transform duration-500 group-hover:scale-105"
                     />
                 </div>
@@ -168,9 +174,17 @@ const ProductCard = ({
                     onClick={handleAddToCart}
                     className="mt-5 flex h-11 w-full items-center justify-center gap-2 border border-[#11151f] bg-[#11151f] text-xs font-semibold uppercase tracking-[0.14em] text-white transition-all duration-300 hover:bg-[#c99a3d] hover:border-[#c99a3d] disabled:cursor-not-allowed disabled:opacity-60"
                 >
-                    <ShoppingBag className="h-4 w-4" />
-
-                    {addingToCart ? "Adding..." : "Add to bag"}
+                    {addingToCart ? (
+                        <>
+                            <Spinner size={15} data-tone="on-dark" className="text-white" />
+                            Adding...
+                        </>
+                    ) : (
+                        <>
+                            <ShoppingBag className="h-4 w-4" />
+                            Add to bag
+                        </>
+                    )}
                 </button>
             </div>
         </article>

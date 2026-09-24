@@ -1,47 +1,23 @@
 import { Heart } from "lucide-react";
 import { toast } from "sonner";
 
-import { getWishlist, removeFromWishlist } from "@/api/wishlist.api";
-
+import { useCart } from "@/context/CartContext";
+import { useWishlistContext } from "@/context/WishlistContext";
 import { addToCart } from "@/api/cart.api";
 
 import { WishlistCard, EmptyWishlist } from "@/components/Wishlist";
-
-import { useEffect, useState } from "react";
+import { WishlistSkeleton, ContentFade, Spinner } from "@/components/loading";
 
 const Wishlist = () => {
-    const [products, setProducts] = useState([]);
-    const [loading, setLoading] = useState(true);
+    const { wishlist, loading, refetchWishlist, toggleWishlist } = useWishlistContext();
+    const { refetchCart } = useCart();
 
-    const fetchWishlist = async () => {
-        try {
-            setLoading(true);
-
-            const data = await getWishlist();
-
-            setProducts(data.products || []);
-        } catch (error) {
-            console.error(error);
-
-            toast.error(
-                error?.response?.data?.message || "Failed to load wishlist",
-            );
-        } finally {
-            setLoading(false);
-        }
-    };
-
-    useEffect(() => {
-        fetchWishlist();
-    }, []);
+    const products = wishlist?.products || [];
 
     const handleRemove = async (productId) => {
         try {
-            await removeFromWishlist(productId);
-
-            setProducts((current) =>
-                current.filter((product) => product._id !== productId),
-            );
+            await toggleWishlist(productId);
+            await refetchWishlist();
 
             toast.success("Removed from wishlist");
         } catch (error) {
@@ -56,6 +32,7 @@ const Wishlist = () => {
     const handleAddToCart = async (product) => {
         try {
             await addToCart(product._id, 1);
+            await refetchCart();
 
             toast.success("Product added to cart");
         } catch (error) {
@@ -70,9 +47,17 @@ const Wishlist = () => {
 
     if (loading) {
         return (
-            <div className="flex min-h-[60vh] items-center justify-center">
-                <p className="text-slate-500">Loading wishlist...</p>
-            </div>
+            <section className="min-h-screen bg-[#f7f3ec] px-6 py-12">
+                <div className="mx-auto max-w-7xl">
+                    <div className="mb-10 flex items-center gap-3">
+                        <Spinner size={22} />
+                        <p className="text-[11px] font-semibold uppercase tracking-[0.25em] text-[#8b857c]">
+                            Loading wishlist
+                        </p>
+                    </div>
+                    <WishlistSkeleton count={8} />
+                </div>
+            </section>
         );
     }
 
@@ -81,12 +66,13 @@ const Wishlist = () => {
     }
 
     return (
-        <section className="min-h-screen bg-slate-50 px-6 py-12">
+        <ContentFade id={`wishlist-${products.length}`}>
+        <section className="min-h-screen bg-[#f7f3ec] px-6 py-12">
             <div className="mx-auto max-w-7xl">
                 {/* Header */}
                 <div className="mb-10">
                     <div className="flex items-center gap-3">
-                        <Heart className="h-7 w-7 fill-indigo-600 text-indigo-600" />
+                        <Heart className="h-7 w-7 fill-red-800 text-red-800" />
 
                         <h1 className="text-4xl font-bold tracking-tight text-slate-900">
                             My Wishlist
@@ -113,6 +99,7 @@ const Wishlist = () => {
                 </div>
             </div>
         </section>
+        </ContentFade>
     );
 };
 

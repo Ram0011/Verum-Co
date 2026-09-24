@@ -17,3 +17,21 @@ exports.login = async (req, res, next) => {
         next(error);
     }
 };
+
+exports.adminLogin = async (req, res, next) => {
+    try {
+        const user = await authService.loginUser(req.body, ["admin"]);
+        res.status(200).json(user);
+    } catch (error) {
+        next(error);
+    }
+};
+
+exports.createStaffUser = async (req, res, next) => {
+    try {
+        const user = await authService.createStaffUser(req.body);
+        res.status(201).json(user);
+    } catch (error) {
+        next(error);
+    }
+};

@@ -1,183 +1,3 @@
-// import { useState } from "react";
-// import { loginUser } from "@/api/auth.api";
-// import { useAuth } from "@/context/AuthContext";
-// import { useNavigate } from "react-router-dom";
-// import { Input } from "@/components/ui/input";
-// import { motion } from "framer-motion";
-
-// const Login = () => {
-//     const navigate = useNavigate();
-//     const { login } = useAuth();
-
-//     const [formData, setFormData] = useState({
-//         email: "",
-//         password: "",
-//     });
-
-//     const [showError, setShowError] = useState(false);
-
-//     const handleChange = (e) => {
-//         setFormData({
-//             ...formData,
-//             [e.target.name]: e.target.value,
-//         });
-//     };
-
-//     const handleSubmit = async (e) => {
-//         e.preventDefault();
-
-//         try {
-//             const data = await loginUser(formData);
-//             login(data.user, data.token);
-//             navigate("/");
-//         } catch {
-//             setShowError(true);
-//         }
-//     };
-
-//     return (
-//         <div className="min-h-screen bg-gradient-to-b from-indigo-600 via-purple-600 to-pink-600 overflow-hidden relative">
-//             {/* Animated background circles */}
-//             <div className="absolute -inset-0 overflow-hidden pointer-events-none">
-//                 <motion.div
-//                     className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl opacity-20 -top-5 -left-10"
-//                     animate="visible"
-//                     transition={{ duration: 6, ease: "ease-in-out" }}
-//                 />
-//                 <motion.div
-//                     className="absolute w-80 h-80 bg-white/10 rounded-full blur-3xl opacity-20 -bottom-10 -right-10"
-//                     animate="visible"
-//                     transition={{ duration: 8, ease: "ease-in-out" }}
-//                 />
-//             </div>
-
-//             {/* Decorative left element */}
-//             <motion.div
-//                 className="absolute left-0 top-1/2 -translate-y-1/2 w-full h-full pointer-events-none opacity-30"
-//                 animate="visible"
-//                 transition={{ duration: 4, delay: 0.5, ease: "ease-in-out" }}
-//                 style={{
-//                     background:
-//                         "conic-gradient(from 0deg, transparent, rgba(255,255,255,0.1), transparent)",
-//                 }}
-//             >
-//                 <svg
-//                     className="w-full h-full fill-none stroke-white/20 stroke-width"
-//                     viewBox="0 0 100 100"
-//                 >
-//                     <circle
-//                         cx="50"
-//                         cy="50"
-//                         r="45"
-//                         fill="none"
-//                         strokeWidth="1"
-//                     />
-//                 </svg>
-//             </motion.div>
-
-//             <div className="relative z-10 min-h-screen flex items-center justify-center px-4 py-12 sm:px-6 lg:px-8">
-//                 <motion.div
-//                     className="w-full max-w-md w-full px-6 py-8 bg-white/80 backdrop-blur-xl border border-white/10 rounded-2xl shadow-2xl shadow-black/20"
-//                     animate="visible"
-//                     transition={{ type: "spring", damping: 20, stiffness: 150 }}
-//                 >
-//                     <div className="text-center">
-//                         <h1
-//                             className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4"
-//                             initial="hidden"
-//                             animate="visible"
-//                             transition={{ delay: 0.2 }}
-//                         >
-//                             Welcome Back
-//                         </h1>
-
-//                         <p
-//                             className="text-slate-600 text-sm mb-8 max-w-sm"
-//                             initial="hidden"
-//                             animate="visible"
-//                             transition={{ delay: 0.3 }}
-//                         >
-//                             Sign in to your account to continue shopping
-//                         </p>
-//                     </div>
-
-//                     <form onSubmit={handleSubmit} className="space-y-6">
-//                         <div>
-//                             <label className="block text-sm font-medium text-slate-600 mb-2">
-//                                 Email address
-//                             </label>
-//                             <Input
-//                                 type="email"
-//                                 name="email"
-//                                 placeholder="Enter your email"
-//                                 value={formData.email}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-
-//                         <div>
-//                             <label className="block text-sm font-medium text-slate-600 mb-2">
-//                                 Password
-//                             </label>
-//                             <Input
-//                                 type="password"
-//                                 name="password"
-//                                 placeholder="Enter your password"
-//                                 value={formData.password}
-//                                 onChange={handleChange}
-//                                 required
-//                             />
-//                         </div>
-
-//                         {showError && (
-//                             <div className="alert alert-error">
-//                                 <svg
-//                                     className="h-5 w-5 inline-flex align-middle me-2"
-//                                     width="1em"
-//                                     height="1em"
-//                                     viewBox="0 0 20 20"
-//                                     fill="currentColor"
-//                                 >
-//                                     <path
-//                                         fillRule="evenodd"
-//                                         d="M10 18a8 8 0 100-16 8 8 0 000 16zM10 5a5 5 0 100-10 5 5 0 000 10z"
-//                                         clipRule="evenodd"
-//                                     />
-//                                 </svg>
-//                                 <span className="ml-2 text-sm font-medium text-destructive">
-//                                     Invalid email or password
-//                                 </span>
-//                             </div>
-//                         )}
-
-//                         <button
-//                             type="submit"
-//                             className="w-full rounded-md bg-indigo-600 px-4 py-3 text-white font-medium text-sm hover:bg-indigo-500 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500 focus-visible:ring-offset-2"
-//                         >
-//                             Login
-//                         </button>
-
-//                         <div className="text-center mt-6">
-//                             <p className="text-sm text-slate-500">
-//                                 Don't have an account?
-//                                 <a
-//                                     href="/register"
-//                                     className="font-medium text-indigo-600 hover:text-pink-500 transition-colors"
-//                                 >
-//                                     Register
-//                                 </a>
-//                             </p>
-//                         </div>
-//                     </form>
-//                 </motion.div>
-//             </div>
-//         </div>
-//     );
-// };
-
-// export default Login;
-
 import { useState } from "react";
 import { loginUser } from "@/api/auth.api";
 import { useAuth } from "@/context/AuthContext";
@@ -216,8 +36,17 @@ const Login = () => {
 
         try {
             const data = await loginUser(formData);
+            // console.log("DATA --------> ", data.user.role);
             login(data.user, data.token);
-            navigate("/");
+            // AuthContext.login() no longer navigates — route by role here.
+            // An unconditional navigate("/") would override the admin flow.
+            if (data.user?.role === "admin") {
+                navigate("/admin", { replace: true });
+            } else if (data.user?.role === "seller") {
+                navigate("/seller", { replace: true });
+            } else {
+                navigate("/", { replace: true });
+            }
         } catch {
             setShowError(true);
             setIsSubmitting(false);
@@ -264,7 +93,7 @@ const Login = () => {
                         <span className="w-1.5 h-1.5 rounded-full bg-[#C9A15A] mt-1" />
                     </div>
                     <p className="text-[11px] uppercase tracking-[0.25em] text-[#8A8F9C] mt-1">
-                        Est. Online Boutique
+                        EST. ONLINE ATELIER
                     </p>
                 </motion.div>
 

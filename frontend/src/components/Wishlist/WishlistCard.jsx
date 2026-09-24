@@ -25,11 +25,11 @@ const WishlistCard = ({ product, onRemove, onAddToCart }) => {
                     <Heart className="h-5 w-5 fill-red-500 text-red-500" />
                 </button>
 
-                <div className="flex h-56 items-center justify-center">
+                <div className="flex h-48 items-center justify-center sm:h-56">
                     <img
                         src={product.images?.[0]?.url}
                         alt={product.images?.[0]?.alt || product.name}
-                        className="h-48 w-full object-contain transition duration-300 group-hover:scale-105"
+                        className="h-40 w-full object-contain transition duration-300 group-hover:scale-105 sm:h-48"
                     />
                 </div>
             </div>
@@ -43,8 +43,8 @@ const WishlistCard = ({ product, onRemove, onAddToCart }) => {
                     {product.name}
                 </h3>
 
-                <div className="flex items-center justify-between">
-                    <span className="text-2xl font-bold text-slate-900">
+                <div className="flex items-center justify-between gap-2">
+                    <span className="text-xl font-bold text-slate-900 sm:text-2xl">
                         {formatCurrency(Number(product.price || 0))}
                     </span>
 
@@ -59,7 +59,7 @@ const WishlistCard = ({ product, onRemove, onAddToCart }) => {
                     </span>
                 </div>
 
-                <div className="flex gap-2">
+                <div className="flex flex-col gap-2 min-[420px]:flex-row">
                     <Button
                         className="flex-1 rounded-xl"
                         disabled={product.stock <= 0}

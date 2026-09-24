@@ -2,6 +2,7 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { MapPin } from "lucide-react";
+import { ButtonLoader } from "@/components/loading";
 
 const checkoutSchema = z.object({
     fullName: z.string().min(2, "Full name is required"),
@@ -166,12 +167,15 @@ const CheckoutForm = ({ onSubmit, loading }) => {
                         disabled={loading}
                         className="group flex h-13 w-full items-center justify-center gap-3 bg-[#11151f] text-xs font-semibold uppercase tracking-[0.16em] text-white transition-all duration-300 hover:bg-[#c99a3d] disabled:cursor-not-allowed disabled:opacity-60"
                     >
-                        {loading ? "Placing Order..." : "Place Order"}
-
-                        {!loading && (
-                            <span className="text-[#c99a3d] transition-colors group-hover:text-white">
-                                →
-                            </span>
+                        {loading ? (
+                            <ButtonLoader label="Placing Order..." />
+                        ) : (
+                            <>
+                                Place Order
+                                <span className="text-[#c99a3d] transition-colors group-hover:text-white">
+                                    →
+                                </span>
+                            </>
                         )}
                     </button>
                 </div>

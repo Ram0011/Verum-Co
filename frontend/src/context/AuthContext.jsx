@@ -22,7 +22,13 @@ export const AuthProvider = ({ children }) => {
 
     const [token, setToken] = useState(auth?.token || null);
     const [user, setUser] = useState(auth?.user || null);
+    // True while we are verifying a persisted token via getMe().
+    // Guards protected routes from redirecting on stale/null user.
+    const [isLoading, setIsLoading] = useState(!!auth?.token);
 
+    // Pure state update only — callers own navigation.
+    // Navigating here (before setUser/setToken commit) lets
+    // AdminProtectedRoute render with a stale user and bounce to "/".
     const login = (userData, tokenData) => {
         try {
             setUser(userData);
@@ -36,7 +42,13 @@ export const AuthProvider = ({ children }) => {
                 }),
             );
 
-            toast.success("Login successful!");
+            if (userData.role === "admin") {
+                toast.success("Admin Login Sucessful");
+            } else if (userData.role === "seller") {
+                toast.success("Seller Login Successful");
+            } else {
+                toast.success("Login successful!");
+            }
         } catch (error) {
             console.error("Login error:", error);
             toast.error("Something went wrong while logging in.");
@@ -58,8 +70,12 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         const fetchUser = async () => {
-            if (!token) return;
+            if (!token) {
+                setIsLoading(false);
+                return;
+            }
 
+            setIsLoading(true);
             try {
                 const userData = await getMe();
 
@@ -87,6 +103,8 @@ export const AuthProvider = ({ children }) => {
                 }
 
                 logout();
+            } finally {
+                setIsLoading(false);
             }
         };
 
@@ -101,6 +119,7 @@ export const AuthProvider = ({ children }) => {
                 login,
                 logout,
                 isAuthenticated: !!token,
+                isLoading,
             }}
         >
             {children}

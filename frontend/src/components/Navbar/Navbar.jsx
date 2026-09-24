@@ -4,7 +4,7 @@ import { Link, NavLink, useLocation, useNavigate } from "react-router-dom";
 
 import { useAuth } from "@/context/AuthContext";
 import { useCart } from "@/context/CartContext";
-import useWishlist from "@/hooks/useWishlist";
+import { useWishlistContext } from "@/context/WishlistContext";
 
 const Navbar = () => {
     const navigate = useNavigate();
@@ -17,7 +17,7 @@ const Navbar = () => {
 
     const { cart, refetchCart } = useCart();
 
-    const { wishlist, refetchWishlist } = useWishlist();
+    const { wishlist, refetchWishlist } = useWishlistContext();
 
     /*
      * Refresh cart/wishlist when the user navigates.
@@ -31,7 +31,7 @@ const Navbar = () => {
 
         refetchCart?.();
         refetchWishlist?.();
-    }, [isAuthenticated, location.pathname]);
+    }, [isAuthenticated, location.pathname, refetchCart, refetchWishlist]);
 
     const cartCount =
         cart?.items?.reduce(
@@ -203,7 +203,7 @@ const Navbar = () => {
 
                 {/* Mobile Menu */}
                 {mobileOpen && (
-                    <div className="border-t border-[#ded8ce] py-5 lg:hidden">
+                    <div className="max-h-[calc(100vh-5rem)] overflow-y-auto border-t border-[#ded8ce] py-5 lg:hidden">
                         {/* Search */}
                         <form onSubmit={handleSearch} className="mb-5">
                             <div className="relative">
